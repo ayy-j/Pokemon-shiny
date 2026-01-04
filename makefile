@@ -26,3 +26,6 @@ init: copy-assets
 
 fetch-names:
 	node ./tasks/fetch-names.mjs;
+
+combine-data:
+	node ./tasks/combine-data.js;
