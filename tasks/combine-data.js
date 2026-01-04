@@ -7,11 +7,22 @@ const outputJSON = (json = {}, fileName, jsonSpace = 2) => {
 };
 
 // Read the source files
-let pms = fs.readFileSync('./assets/pms.json', 'utf8');
-let names = fs.readFileSync('./assets/name.src.json', 'utf8');
+let pms, names;
+try {
+  pms = fs.readFileSync('./assets/pms.json', 'utf8');
+  names = fs.readFileSync('./assets/name.src.json', 'utf8');
+} catch (error) {
+  console.error('Error reading source files:', error.message);
+  process.exit(1);
+}
 
-pms = JSON.parse(pms);
-names = JSON.parse(names);
+try {
+  pms = JSON.parse(pms);
+  names = JSON.parse(names);
+} catch (error) {
+  console.error('Error parsing JSON:', error.message);
+  process.exit(1);
+}
 
 // Create a comprehensive data structure
 // Group pms entries by dex number and combine with names
