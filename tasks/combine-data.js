@@ -3,7 +3,7 @@ const fs = require('fs');
 const outputJSON = (json = {}, fileName, jsonSpace = 2) => {
   let fileContent = JSON.stringify(json, null, jsonSpace);
   fs.writeFileSync(fileName, fileContent);
-  console.log(`JSON saved as ${fileName}! ( ${fileContent.length / 1000} kb )`);
+  console.log(`JSON saved as ${fileName}! ( ${(fileContent.length / 1024).toFixed(2)} KB )`);
 };
 
 // Read the source files
@@ -30,7 +30,7 @@ const combinedData = {};
 
 // Process pms.json entries
 pms.forEach((entry) => {
-  const dexId = entry.dex.toString();
+  const dexId = entry.dex;
   
   // Initialize dex entry if it doesn't exist
   if (!combinedData[dexId]) {
@@ -47,7 +47,8 @@ pms.forEach((entry) => {
 
 // Convert to array format sorted by dex number
 const outputArray = Object.keys(combinedData)
-  .sort((a, b) => parseInt(a) - parseInt(b))
+  .map(Number)
+  .sort((a, b) => a - b)
   .map(dexId => combinedData[dexId]);
 
 // Save the combined data
